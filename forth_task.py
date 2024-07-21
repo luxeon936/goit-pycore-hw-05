@@ -16,6 +16,15 @@ def index_error(func):
 
     return inner
 
+def key_error(func):
+    def inner(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except KeyError:
+            return "Phone don't exist"
+
+    return inner
+
 
 def parse_input(user_input: str) -> list:
     """
@@ -52,6 +61,7 @@ def change_contact(args: list, contacts: dict) -> str:
     contacts[name] = phone
     return "Contact changed."
 
+@key_error
 @index_error
 @input_error
 def show_phone(args: list, contacts: dict) -> str:

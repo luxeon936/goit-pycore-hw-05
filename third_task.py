@@ -14,7 +14,7 @@ def parse_log_line(line: str) -> dict:
     return {"Date" : parsed_line[0], "Time" : parsed_line[1],
             "Level" : parsed_line[2], "Message" : message}
 
-def load_logs(file_path: str) -> list:
+def load_logs(file_path: str) -> list[dict]:
     """
     Function to parse file and write logs into list
 
@@ -29,7 +29,7 @@ def load_logs(file_path: str) -> list:
             parsed_lines.append(parse_log_line(line))
         return parsed_lines
     else:
-        print("Wrong path") 
+        print("Wrong path")
 
 def filter_logs_by_level(logs: list, level: str) -> list:
     """
@@ -44,14 +44,14 @@ def filter_logs_by_level(logs: list, level: str) -> list:
             result.append(line)
     return result
 
-def count_logs_by_level(logs: list) -> dict:
+def count_logs_by_level(logs: list[dict]) -> dict:
     """
     Function to count logs with same level key
 
     Returns:
         Dictionary with counted pairs Level : Count
     """
-    return dict(Counter(log["Level"] for log in logs))
+    return Counter(log["Level"] for log in logs)
 
 def display_log_counts(counts: dict):
     """
@@ -63,14 +63,14 @@ def display_log_counts(counts: dict):
         print(f"{key:17}| {counts[key]:<4}")
 
 def main():
-    if sys.argv.len() < 2:
+    if sys.argv.__len__() < 2:
         print("Please enter path")
         exit()
     file_path = Path(sys.argv[1])
     parsed_file = load_logs(file_path)
     counted_logs = count_logs_by_level(parsed_file)
     display_log_counts(counted_logs)
-    if sys.argv.len() > 2:
+    if sys.argv.__len__() > 2:
         level = sys.argv[2].upper()
         filtered_logs = filter_logs_by_level(parsed_file, level)
         print(f"Деталі логів для рівня '{level}':")
